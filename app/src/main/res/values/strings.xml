@@ -83,7 +83,7 @@
 
     <string name="supplier_information">Supplier information</string>
 
-    <string name="empty_view">Your inventory is empty</string>
+    <string name="empty_view">Your inventory is empty. Add a new product.</string>
 
     <string name="please_fill_information">Please fill all blanks</string>
 
