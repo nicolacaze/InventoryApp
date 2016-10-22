@@ -88,4 +88,6 @@
     <string name="please_fill_information">Please fill all blanks</string>
 
     <string name="invalid_email">Email is invalid</string>
+
+    <string name="no_image">You need to select an image</string>
 </resources>

@@ -31,7 +31,7 @@ public class AddProduct extends AppCompatActivity {
     private EditText productQuantityView;
     private EditText supplierNameView;
     private EditText supplierEmailView;
-    private Uri mUri;
+    private Uri mImageUri;
     private ImageView imageView;
 
     @Override
@@ -73,9 +73,9 @@ public class AddProduct extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            mUri = data.getData();
+            mImageUri = data.getData();
 
-            imageView.setImageBitmap(getBitmapFromUri(mUri));
+            imageView.setImageBitmap(getBitmapFromUri(mImageUri));
         }
     }
 
@@ -119,7 +119,6 @@ public class AddProduct extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.please_fill_information), Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (!supplierEmail.contains("@")) {
             Toast.makeText(this, getString(R.string.invalid_email), Toast.LENGTH_SHORT).show();
             return;
@@ -127,18 +126,26 @@ public class AddProduct extends AppCompatActivity {
 
         int productPrice;
         int productQuantity;
-        //If price field is left empty. If positive, return.
+        //If price field is left empty, return.
         if (productPriceString.isEmpty()) {
+            Toast.makeText(this, getString(R.string.please_fill_information), Toast.LENGTH_SHORT).show();
             return;
         } else {
             productPrice = Integer.parseInt(productPriceString);
         }
 
-        //If quantity field is left empty, we assign the value 0 as default. It may be edited later.
+        //If quantity field is left empty, return.
         if (productQuantityString.isEmpty()) {
-            productQuantity = 0;
+            Toast.makeText(this, getString(R.string.please_fill_information), Toast.LENGTH_SHORT).show();
+            return;
         } else {
             productQuantity = Integer.parseInt(productQuantityString);
+        }
+
+        //Check that an image was imported before calling insert() method
+        if (mImageUri == null) {
+            Toast.makeText(this, getString(R.string.no_image), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         //Create a ContentValues object and associate each relevant data extracted with its key column
@@ -146,7 +153,7 @@ public class AddProduct extends AppCompatActivity {
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, productName);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, productPrice);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
-        values.put(ProductEntry.COLUMN_PRODUCT_IMAGE_RESOURCE_PATH, mUri.toString());
+        values.put(ProductEntry.COLUMN_PRODUCT_IMAGE_RESOURCE_PATH, mImageUri.toString());
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, supplierName);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmail);
 
