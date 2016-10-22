@@ -13,7 +13,7 @@ import com.example.android.inventoryapp.data.InventoryContract.ProductEntry;
 public class InventoryDbHelper extends SQLiteOpenHelper {
 
     //Database version
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 3;
 
     //Constant database name
     public static final String DB_NAME = "inventory.db";
@@ -30,7 +30,8 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 + ProductEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL,"
                 + ProductEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL,"
                 + ProductEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0,"
-                + ProductEntry.COLUMN_PRODUCT_IMAGE_RESOURCE_PATH + " INTEGER,"
+                + ProductEntry.COLUMN_PRODUCT_IMAGE_RESOURCE_PATH + " TEXT,"
+                + ProductEntry.COLUMN_PRODUCT_SALES + " INTEGER NOT NULL DEFAULT 0, "
                 + ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME + " TEXT NOT NULL,"
                 + ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL + " TEXT NOT NULL" + ");";
         db.execSQL(CREATE_PRODUCT_TABLE);

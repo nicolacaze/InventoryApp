@@ -1,32 +1,46 @@
 package com.example.android.inventoryapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.ProductEntry;
 import com.example.android.inventoryapp.data.InventoryDbHelper;
 
-import static com.example.android.inventoryapp.data.InventoryProvider.LOG_TAG;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 
 
 public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String LOG_TAG = InventoryActivity.class.getSimpleName();
 
     private ProductCursorAdapter mCursorAdapter;
-
-    private InventoryDbHelper mDbHelper;
 
     //Define Loader ID
     private static final int PET_LOADER = 0;
@@ -36,7 +50,8 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
             ProductEntry._ID,
             ProductEntry.COLUMN_PRODUCT_NAME,
             ProductEntry.COLUMN_PRODUCT_PRICE,
-            ProductEntry.COLUMN_PRODUCT_QUANTITY
+            ProductEntry.COLUMN_PRODUCT_QUANTITY,
+            ProductEntry.COLUMN_PRODUCT_SALES
     };
 
     @Override
@@ -47,7 +62,9 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         //Find our ListView UI element
         ListView productListView = (ListView) findViewById(R.id.listview_items);
 
-        //TODO:SET EMPTY VIEW
+        //Set empty view when no items are to be displayed
+        View emptyView = findViewById(R.id.empty_view);
+        productListView.setEmptyView(emptyView);
 
         // Create an empty adapter we will use to display the loaded data.
         mCursorAdapter = new ProductCursorAdapter(this, null);
@@ -55,9 +72,30 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         //Set the petAdapter to our ListView UI
         productListView.setAdapter(mCursorAdapter);
 
-        mDbHelper = new InventoryDbHelper(this);
+        productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                //Create an Intent to open ProductInformation Activity
+                Intent seeProductDetails = new Intent(InventoryActivity.this, ProductInformation.class);
 
+                //Create a complete Uri from product's id
+                Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
+
+                //Add current Uri to data field of our Intent and start the activity.
+                seeProductDetails.setData(currentProductUri);
+                startActivity(seeProductDetails);
+            }
+        });
         getLoaderManager().initLoader(PET_LOADER, null, this);
+
+        Button addProduct = (Button) findViewById(R.id.add_product);
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addNewProduct = new Intent(InventoryActivity.this, AddProduct.class);
+                startActivity(addNewProduct);
+            }
+        });
     }
 
     @Override
@@ -72,31 +110,51 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
-                insertProduct();
-                return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                //TODO: do something
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void insertProduct() {
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.total_delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteProducts();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
-        //Store pair of values into a ContentValues object.
-        ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Box");
-        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, 10);
-        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, 3);
-        values.put(ProductEntry.COLUMN_PRODUCT_IMAGE_RESOURCE_PATH, 7);
-        values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, "Big Shop");
-        values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL, "bigshop@gmail.com");
+    private void deleteProducts() {
 
-        //Insert set of values into the database.
-        Uri uri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
+        int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
+        if (rowsDeleted == 0) {
+            // If the number of rows deleted is 0, then there was an error with delete.
+            Toast.makeText(this, getString(R.string.reset_inventory_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the delete was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.reset_inventory_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

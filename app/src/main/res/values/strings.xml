@@ -1,7 +1,91 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">InventoryApp</string>
+
+    <string name="product_information_activity">Product information</string>
 
     <string name="action_insert_dummy_data">Insert a product</string>
 
-    <string name="action_delete_all_entries">Delete all products</string>
+    <string name="action_delete_all_entries">Reset inventory</string>
+
+    <string name="action_delete_product">Delete product</string>
+
+    <string name="delete_product_failed">Could not delete the product</string>
+
+    <string name="reset_inventory_failed">Could not delete the product</string>
+
+    <string name="delete_product_successful">Product was deleted successfully</string>
+
+    <string name="reset_inventory_successful">Inventory is clear</string>
+
+    <string name="insert_product_failed">Product could not be added</string>
+
+    <string name="insert_product_successful">Product was added successfully</string>
+
+    <string name="update_product_failed">Quantity could not be updated</string>
+
+    <string name="update_product_successful">Quantity was correctly updated</string>
+
+    <string name="save">Save</string>
+
+    <string name="delete">Delete</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="delete_dialog_msg">You are about to delete this product</string>
+
+    <string name="total_delete_dialog_msg">You are about to delete all products</string>
+
+    <string name="out_of_stock">You are out of stock</string>
+
+    <string name="run_out_of_stock">You\'ve run out of stock</string>
+
+    <string name="no_client_email">There is no email client installed"</string>
+
+    <string name="new_order">New order for </string>
+
+    <string name="email_content">Hi, I would like to order more of your %1$s.
+        Could you send me __number__ items?
+        Best regards</string>
+
+    <string name="product_image_content_description">product image</string>
+
+    <string name="camera_icon_content_description">camera icon</string>
+
+    <string name="price_tag">Price: $</string>
+
+    <string name="sales_tag">Sales to date: </string>
+
+    <string name="order_button">Order</string>
+
+    <string name="quantity_tag">Stock: </string>
+
+    <string name="update_button">Update</string>
+
+    <string name="add_button">Add</string>
+
+    <string name="sale_button">Sale</string>
+
+    <string name="items_received">How many items were received?</string>
+
+    <string name="quantity_hint">quantity</string>
+
+    <string name="name_hint">name</string>
+
+    <string name="price_hint">price</string>
+
+    <string name="email_hint">email</string>
+
+    <string name="items_sold">How many items were sold?</string>
+
+    <string name="select_image">Select an image</string>
+
+    <string name="product_information">Product information</string>
+
+    <string name="supplier_information">Supplier information</string>
+
+    <string name="empty_view">Your inventory is empty</string>
+
+    <string name="please_fill_information">Please fill all blanks</string>
+
+    <string name="invalid_email">Email is invalid</string>
 </resources>

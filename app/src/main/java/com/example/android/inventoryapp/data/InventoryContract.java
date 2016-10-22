@@ -31,6 +31,8 @@ public final class InventoryContract {
 
         public static final String COLUMN_PRODUCT_IMAGE_RESOURCE_PATH = "image_resource_path";
 
+        public static final String COLUMN_PRODUCT_SALES = "sales_record";
+
         public static final String COLUMN_PRODUCT_SUPPLIER_NAME = "supplier_name";
 
         public static final String COLUMN_PRODUCT_SUPPLIER_EMAIL = "supplier_email";

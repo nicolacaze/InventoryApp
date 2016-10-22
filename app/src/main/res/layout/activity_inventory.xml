@@ -11,6 +11,19 @@
         android:layout_height="match_parent"
         android:id="@+id/listview_items"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/empty_view">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/empty_view"/>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +32,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="20dp"
-        android:text="add"/>
+        android:text="@string/add_button"/>
 
 </RelativeLayout>
