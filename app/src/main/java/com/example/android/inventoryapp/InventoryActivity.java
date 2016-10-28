@@ -1,14 +1,8 @@
 package com.example.android.inventoryapp;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,23 +11,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.ProductEntry;
-import com.example.android.inventoryapp.data.InventoryDbHelper;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 
 
 public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -75,8 +62,8 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Create an Intent to open ProductInformation Activity
-                Intent seeProductDetails = new Intent(InventoryActivity.this, ProductInformation.class);
+                //Create an Intent to open ProductInformationActivity Activity
+                Intent seeProductDetails = new Intent(InventoryActivity.this, ProductInformationActivity.class);
 
                 //Create a complete Uri from product's id
                 Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
@@ -88,11 +75,11 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         });
         getLoaderManager().initLoader(PET_LOADER, null, this);
 
-        Button addProduct = (Button) findViewById(R.id.add_product);
+        ImageButton addProduct = (ImageButton) findViewById(R.id.add_product);
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addNewProduct = new Intent(InventoryActivity.this, AddProduct.class);
+                Intent addNewProduct = new Intent(InventoryActivity.this, AddProductActivity.class);
                 startActivity(addNewProduct);
             }
         });

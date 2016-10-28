@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,9 +32,9 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 
 
-public class ProductInformation extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ProductInformationActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String LOG_TAG = ProductInformation.class.getSimpleName();
+    private static final String LOG_TAG = ProductInformationActivity.class.getSimpleName();
     //Define Loader ID
     private static final int PRODUCT_LOADER = 1;
     //Find associated TextViews
@@ -162,7 +161,7 @@ public class ProductInformation extends AppCompatActivity implements LoaderManag
             case android.R.id.home:
                 // If the pet hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
-                NavUtils.navigateUpFromSameTask(ProductInformation.this);
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

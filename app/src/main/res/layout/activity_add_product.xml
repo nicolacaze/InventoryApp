@@ -5,18 +5,20 @@
 
     <ImageView
         android:id="@+id/imported_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:scaleType="centerCrop"
-        android:background="@color/colorPrimary"
+        android:padding="15dp"
+        android:background="@drawable/button_circle_add"
         android:contentDescription="@string/camera_icon_content_description"
-        android:src="@drawable/ic_photo_camera_black_24dp"/>
+        android:src="@drawable/ic_photo_camera_white_48dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imported_image"
-        android:text="@string/select_image"/>
+        android:text="@string/select_image"
+        android:textColor="@color/colorPrimaryText"/>
 
     <EditText
         android:id="@+id/add_product_name"
@@ -39,6 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryText"
             android:text="@string/product_information"/>
 
         <LinearLayout
@@ -76,6 +79,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryText"
             android:text="@string/supplier_information"/>
 
         <LinearLayout
@@ -108,6 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorAccent"
+        android:textColor="#fff"
+        android:background="#4CAF50"
         android:text="@string/save"/>
 </RelativeLayout>

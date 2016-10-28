@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import static com.example.android.inventoryapp.data.InventoryProvider.LOG_TAG;
 
-public class AddProduct extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 1;
     //Declare all input fields as global variables
@@ -117,11 +117,11 @@ public class AddProduct extends AppCompatActivity {
         //If true, leave the method, do not save product.
         if (productName.isEmpty() || supplierName.isEmpty() || supplierEmail.isEmpty()) {
             Toast.makeText(this, getString(R.string.please_fill_information), Toast.LENGTH_SHORT).show();
-            return;
+            //return;
         }
         if (!supplierEmail.contains("@")) {
             Toast.makeText(this, getString(R.string.invalid_email), Toast.LENGTH_SHORT).show();
-            return;
+            //return;
         }
 
         int productPrice;
@@ -145,7 +145,7 @@ public class AddProduct extends AppCompatActivity {
         //Check that an image was imported before calling insert() method
         if (mImageUri == null) {
             Toast.makeText(this, getString(R.string.no_image), Toast.LENGTH_SHORT).show();
-            return;
+            //return;
         }
 
         //Create a ContentValues object and associate each relevant data extracted with its key column

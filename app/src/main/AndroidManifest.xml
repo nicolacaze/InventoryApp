@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProductInformation"
+            android:name=".ProductInformationActivity"
             android:label="@string/product_information_activity"
             android:parentActivityName=".InventoryActivity">
 
@@ -34,7 +34,7 @@
             android:authorities="com.example.android.inventoryapp"
             android:exported="false" />
 
-        <activity android:name=".AddProduct"></activity>
+        <activity android:name=".AddProductActivity"></activity>
     </application>
 
 </manifest>
